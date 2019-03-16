@@ -2,6 +2,7 @@
 basco_path = fileparts(which('BASCO'));
 AnaDef.Img                  = 'nii';
 AnaDef.Img4D                = true;      % true: 4D Nifti
+AnaDef.durType              = 1;         % 1: by condition; 2: by trial
 AnaDef.NumCond              = 5;         % number of conditions
 AnaDef.Cond                 = { 'EMOT-TWO' , 'NEUT-TWO' , 'EMOT-ONE' , 'NEUT-ONE' , 'OBJ' }; % names of conditions
 AnaDef.units                = 'scans';    % unit 'scans' or 'secs'

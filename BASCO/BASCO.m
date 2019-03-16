@@ -212,6 +212,8 @@ if AnaDef.ROIAnalysis==true % retrieve ROIs
         handles.InfoText = WriteInfoBox(handles,'ROIs not found.',true);
         guidata(hObject, handles);
         return;
+    else
+        handles.InfoText = WriteInfoBox(handles,sprintf('Number of ROIs: %d',ROINum),true);
     end
     try
         fid = fopen(fullfile(AnaDef.ROINames));
@@ -270,11 +272,17 @@ for isubj=1:NumSubj % loop over subjects  %%%%%%%%%%%%%%%%%%%%%
         % run directory
         rundir     = fullfile(data_path,AnaDef.Subj{isubj}.RunDirs{irun});
         fprintf('Directory run %d: %s \n',irun,rundir);
-        % read run specific onsets
+        % read run specific onsets and durations
         onsetfile  = fullfile(rundir,AnaDef.Subj{isubj}.Onsets{irun});
         fprintf('Onsets: %s \n',onsetfile);
         onsets     = dlmread(onsetfile); % read onsets
         handles.anaobj{isubj}.Ana{1}.AnaDef.OnsetsMat{irun} = onsets;
+        if AnaDef.durType == 2
+            durationfile = fullfile(rundir,AnaDef.Subj{isubj}.Duration{irun});
+            fprintf('Durations: %s \n',durationfile);
+            durations     = dlmread(durationfile); % read onsets
+            handles.anaobj{isubj}.Ana{1}.AnaDef.DursMat{irun} = durations;
+        end
         % onsets
         onsets = onsets-AnaDef.OnsetModifier; % modify onsets (scans omitted)
         %
@@ -303,10 +311,24 @@ for isubj=1:NumSubj % loop over subjects  %%%%%%%%%%%%%%%%%%%%%
                     disp('Onset NaN or <0! Bailing out ...');
                     return;
                 end
+                if AnaDef.durType == 2
+                    trialdur = durations(icond, ionsets);
+                    if isnan(trialdur)
+                        disp('Dur NaN! Did you forget one? Bailing out ...');
+                        return
+                    end
+                end
                 counter=counter+1;
                 matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).name     = sprintf('%s%d',AnaDef.Cond{icond},ionsets);
                 matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).onset    = trialonset;
-                matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).duration = AnaDef.Subj{isubj}.Duration(icond);
+                if AnaDef.durType == 1
+                    matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).duration = AnaDef.Subj{isubj}.Duration(icond);
+                elseif AnaDef.durType == 2
+                    matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).duration = trialdur;
+                else
+                    ('Duration type not specified, bailing out...')
+                    return
+                end
                 matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).tmod     = 0;
                 matlabbatch{2}.spm.stats.fmri_spec.sess(irun).cond(counter).pmod     = struct('name', {}, 'param', {}, 'poly', {});
                 % store information on regressors and the corresponding condition
