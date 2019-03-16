@@ -17,4 +17,4 @@ Required programs must be running prior to BASCO execution.
  
 
 ## Credit
-BASCO toolbox originally written by Dr. Martin Gottlich, Luebeck University. Original toolbox available for download through [NITRC](https://www.nitrc.org/projects/basco) or in the Master branch of this repository.  
+BASCO toolbox originally written by Dr. Martin Goettlich, Luebeck University. Original toolbox available for download through [NITRC](https://www.nitrc.org/projects/basco) or in the Master branch of this repository.  
