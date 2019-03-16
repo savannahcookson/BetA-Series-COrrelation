@@ -17,4 +17,6 @@ Required programs must be running prior to BASCO execution.
  
 
 ## Credit
-BASCO toolbox originally written by Dr. Martin Goettlich, Luebeck University. Original toolbox available for download through [NITRC](https://www.nitrc.org/projects/basco) or in the Master branch of this repository.  
+BASCO toolbox originally written by Dr. Martin Goettlich, Luebeck University. Original toolbox available for download through [NITRC](https://www.nitrc.org/projects/basco) or in the Master branch of this repository. 
+
+Goettlich, M., Beyer, F., & Kraemer, U. (2015). BASCO: a toolbox for task-related functional connectivity. *Frontiers in Systems Neuroscience*, *9*, 126. 
