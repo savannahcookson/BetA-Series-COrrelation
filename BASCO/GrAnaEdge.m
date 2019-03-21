@@ -243,7 +243,7 @@ for i=1:handles.NumEdges
          if n2max>20
              n2max=20;
          end        
-         Edgenames(counter)   = cellstr(sprintf('%s <-> %s',strn1(1:n1max),strn2(1:n2max)));
+         Edgenames(counter)   = cellstr(sprintf('%s <-> %s',strn1,strn2));
          if StatTest==3
            tableData(counter,1) = handles.Prob(i);
            tableData(counter,2) = handles.Amean(i);
@@ -356,7 +356,7 @@ for idx=1:NumSubj % loop over jobs
       edgeweights(:,idx) = anaobj{idx}.Ana{1}.Matrix(theind)';  
     catch
         fprintf('Wrong number of edges. Subject: %d \n',idx);
-        size(anaobj{idx}.Ana{1}.Matrix);
+        size(anaobj{idx}.Ana{1}.Matrix)
     end
 end
 themean = mean(edgeweights');
@@ -505,6 +505,8 @@ columnnames   = get(handles.tableedges,'ColumnName');
 thedata       = get(handles.tableedges,'data');
 handles.Names = strtrim(handles.Names);
 numrows       = length(rownames);
+idx1 = [];
+idx2 = [];
 for irow=1:numrows
     htemp{irow} = textscan(rownames{irow},'%s <-> %s');
     idx1(irow)  = find(strcmp(handles.Names,char(htemp{irow}{1}))==1);
@@ -556,6 +558,8 @@ for irow=1:numrows
     htemp{irow} = textscan(rownames{irow},'%s <-> %s');
     roi1 = char(htemp{irow}{1});
     roi2 = char(htemp{irow}{2});
+    idx1  = find(strcmp(handles.Names,char(htemp{irow}{1}))==1);
+    idx2  = find(strcmp(handles.Names,char(htemp{irow}{2}))==1);
     roi1 = strrep(roi1,'_',' ');
     roi2 = strrep(roi2,'_',' ');
     stdroi1 = '                         ';
@@ -563,7 +567,7 @@ for irow=1:numrows
     stdroi1(1:length(roi1)) = roi1;
     stdroi2(1:length(roi2)) = roi2;
     col=size(thedata,2);
-    fprintf('%s \t %s \t %.2f \t %.2f \t %.6f \n',stdroi1,stdroi2,thedata(irow,col-1),thedata(irow,col),thedata(irow,1)); 
+    fprintf('%s \t %i \t %s \t %i \t %.2f \t %.2f \t %.6f \n',stdroi1,idx1,stdroi2,idx2,thedata(irow,col-1),thedata(irow,col),thedata(irow,1)); 
 end
 
 function edit_corrpval_Callback(hObject, eventdata, handles)
