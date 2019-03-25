@@ -11,7 +11,6 @@ if isfield(handles.anaobj{1}.Ana{1},'BetaSeriesFull')==true
     handles.InfoText = WriteInfoBox(handles,'Reverting previous selection of beta-series.',true);
     for isubj=1:handles.NumJobs % loop over subjects
         handles.anaobj{isubj}.Ana{1}.BetaSeries = handles.anaobj{isubj}.Ana{1}.BetaSeriesFull; % restore beta-series
-        size(handles.anaobj{isubj}.Ana{1}.BetaSeries)
     end
     handles.InfoText = WriteInfoBox(handles,'... done.',true);
 end
